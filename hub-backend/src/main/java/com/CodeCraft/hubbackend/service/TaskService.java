@@ -1,13 +1,17 @@
 package com.CodeCraft.hubbackend.service;
 
+import com.CodeCraft.hubbackend.model.DashboardInsights;
 import com.CodeCraft.hubbackend.model.Task;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -40,5 +44,20 @@ public class TaskService {
     public String deleteTask(String id){
         dbFirestore.collection("tasks").document(id).delete();
         return "Task deleted successfully";
+    }
+
+    /*---DashboardInsights-----*/
+    public DashboardInsights getDashBoardInsights() throws ExecutionException, InterruptedException{
+        DashboardInsights insights = new DashboardInsights();
+
+        List<Task> allTasks = getAllTasks();
+
+        insights.setTotalTasks((long) allTasks.size());
+        insights.setPendingTasks(allTasks.stream().filter(t ->"pending".equalsIgnoreCase(t.getStatus())).count());
+        insights.setCompletedTasks(allTasks.stream().filter(t -> "completed".equalsIgnoreCase(t.getStatus())).count());
+        insights.setInProgressTasks(allTasks.stream().filter(t -> "in-progress".equalsIgnoreCase(t.getStatus())).count());
+
+        insights.setUpcomingDeadlines(allTasks.stream().filter(t -> t.getDeadline().after(new Date())).sorted(Comparator.comparing(Task::getDeadline)).limit(5).collect(Collectors.toList()));
+        return insights;
     }
 }
