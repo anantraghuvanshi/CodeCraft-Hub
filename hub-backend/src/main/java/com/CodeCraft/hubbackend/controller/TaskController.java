@@ -16,9 +16,6 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @Autowired
-    private DashboardInsights getDashboardInsights;
-
     @PostMapping("/create")
     public Task createTask(@RequestBody Task task) throws ExecutionException, InterruptedException{
         return taskService.saveTask(task);
