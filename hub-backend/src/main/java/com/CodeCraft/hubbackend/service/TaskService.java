@@ -18,6 +18,7 @@ public class TaskService {
         CollectionReference tasks = dbFirestore.collection("tasks");
         DocumentReference addedDocRef = tasks.add(task).get();
         task.setId(addedDocRef.getId());
+        addedDocRef.set(task);
         return task;
     }
     public List<Task> getAllTasks() throws ExecutionException, InterruptedException {
