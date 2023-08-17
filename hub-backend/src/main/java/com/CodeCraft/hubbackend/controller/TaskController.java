@@ -1,5 +1,6 @@
 package com.CodeCraft.hubbackend.controller;
 
+import com.CodeCraft.hubbackend.model.DashboardInsights;
 import com.CodeCraft.hubbackend.model.Task;
 import com.CodeCraft.hubbackend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private DashboardInsights getDashboardInsights;
 
     @PostMapping("/create")
     public Task createTask(@RequestBody Task task) throws ExecutionException, InterruptedException{
@@ -34,5 +38,11 @@ public class TaskController {
     @DeleteMapping("/delete/{id}")
     public String deleteTask(@PathVariable String id){
         return taskService.deleteTask(id);
+    }
+
+    /* DashBoard Insights Mapping */
+    @GetMapping("/dashboard-insights")
+    public DashboardInsights getDashboardInsights() throws ExecutionException, InterruptedException {
+        return taskService.getDashBoardInsights();
     }
 }
