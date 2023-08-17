@@ -22,7 +22,7 @@ public class TaskService {
     }
     public List<Task> getAllTasks() throws ExecutionException, InterruptedException {
         List<QueryDocumentSnapshot> documents = dbFirestore.collection("tasks").get().get().getDocuments();
-        List<Task> tasks = new ArrayList<>()
+        List<Task> tasks = new ArrayList<>();
         for (DocumentSnapshot document : documents) {
             tasks.add(document.toObject(Task.class));
         }
