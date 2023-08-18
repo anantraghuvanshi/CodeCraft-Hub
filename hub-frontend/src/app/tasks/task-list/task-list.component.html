@@ -1,1 +1,5 @@
-<p>task-list works!</p>
+<mat-list>
+  <mat-list-item *ngFor="let task of tasks" (click)="onTaskSelect(task.id)">
+    {{ task.title }}
+  </mat-list-item>
+</mat-list>
