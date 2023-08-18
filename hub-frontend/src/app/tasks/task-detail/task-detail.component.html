@@ -1,1 +1,9 @@
 <p>task-detail works!</p>
+<mat-card *ngIf="task">
+  <mat-card-header>
+    <mat-card-title>{{ task.title }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ task.description }}</p>
+  </mat-card-content>
+</mat-card>
