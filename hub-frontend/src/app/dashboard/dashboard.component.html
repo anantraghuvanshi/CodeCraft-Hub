@@ -1,22 +1,24 @@
-<mat-card>
-  <mat-card-title> Your Daily Overview </mat-card-title>
-  <mat-card-content>
-    <div>
-      <h3>Total Tasks: {{ insights.totalTasks }}</h3>
-      <h3>Pending Tasks: {{ insights.pendingTasks }}</h3>
-      <h3>Completed Tasks: {{ insights.completedTasks }}</h3>
-      <h3>In-Progress Tasks: {{ insights.inProgressTasks }}</h3>
-    </div>
+<div *ngIf="insights">
+  <mat-card>
+    <mat-card-title> Your Daily Overview </mat-card-title>
+    <mat-card-content>
+      <div>
+        <h3>Total Tasks: {{ insights.totalTasks }}</h3>
+        <h3>Pending Tasks: {{ insights.pendingTasks }}</h3>
+        <h3>Completed Tasks: {{ insights.completedTasks }}</h3>
+        <h3>In-Progress Tasks: {{ insights.inProgressTasks }}</h3>
+      </div>
 
-    <div
-      *ngIf="insights.upcomingDeadlines && insights.upcomingDeadlines.length"
-    >
-      <h3>Upcoming Deadlines:</h3>
-      <mat-list>
-        <mat-list-item *ngFor="let task of insights.upcomingDeadlines">
-          {{ task.title }} - {{ task.deadline | date }}
-        </mat-list-item>
-      </mat-list>
-    </div>
-  </mat-card-content>
-</mat-card>
+      <div
+        *ngIf="insights.upcomingDeadlines && insights.upcomingDeadlines.length"
+      >
+        <h3>Upcoming Deadlines:</h3>
+        <mat-list>
+          <mat-list-item *ngFor="let task of insights.upcomingDeadlines">
+            {{ task.title }} - {{ task.deadline | date }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
