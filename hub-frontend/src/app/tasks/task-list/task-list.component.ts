@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Task } from 'src/app/models/task';
 import { TaskService } from 'src/app/services/taskService/task.service';
 
 @Component({
