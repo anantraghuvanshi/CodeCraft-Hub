@@ -12,9 +12,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { TaskDetailComponent } from './tasks/task-detail/task-detail.component';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, TaskListComponent, TaskDetailComponent, TaskCreateComponent],
+  declarations: [
+    AppComponent,
+    DashboardComponent,
+    TaskListComponent,
+    TaskDetailComponent,
+    TaskCreateComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,6 +35,13 @@ import { TaskCreateComponent } from './tasks/task-create/task-create.component';
     MatButtonModule,
     MatListModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

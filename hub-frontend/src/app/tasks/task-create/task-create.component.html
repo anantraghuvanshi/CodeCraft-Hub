@@ -1,1 +1,49 @@
-<p>task-create works!</p>
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input matInput placeholder="Title" formControlName="title" />
+    <mat-error
+      *ngIf="taskForm?.get('title')?.invalid && taskForm?.get('title')?.touched"
+    >
+      Title is required.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description" rows="4"></textarea>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Category</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="category"
+      [matAutocomplete]="auto"
+    />
+
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let option of filteredOptions | async"
+        [value]="option"
+      >
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Deadline</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="deadline" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="pending">Pending</mat-option>
+      <mat-option value="completed">Completed</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button type="submit" [disabled]="taskForm.invalid">
+    Create Task
+  </button>
+</form>

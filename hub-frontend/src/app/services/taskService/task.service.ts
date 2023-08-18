@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Task } from 'src/app/models/task';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -11,10 +11,21 @@ export class TaskService {
   constructor(private http: HttpClient) {}
 
   getAllTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${environment.apiUrl}/tasks`);
+    return this.http.get<Task[]>(`${environment.apiUrl}/api/tasks/all`);
   }
 
   getTaskById(id: string): Observable<Task> {
-    return this.http.get<Task>(`${environment.apiUrl}/tasks/${id}`);
+    return this.http.get<Task>(`${environment.apiUrl}/api/tasks/${id}`);
+  }
+  createTask(task: Task): Observable<Task> {
+    return this.http.post<Task>(`${environment.apiUrl}/api/tasks/create`, task);
+  }
+  private handleError(error: any) {
+    console.error('Server error:', error);
+    if (error.error instanceof Error) {
+      const errMsg = error.error.message;
+      return throwError(errMsg);
+    }
+    return throwError(error || 'Server error');
   }
 }
