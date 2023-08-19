@@ -16,4 +16,8 @@ export class AuthService {
       responseType: 'text',
     });
   }
+
+  login(userData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, userData);
+  }
 }
