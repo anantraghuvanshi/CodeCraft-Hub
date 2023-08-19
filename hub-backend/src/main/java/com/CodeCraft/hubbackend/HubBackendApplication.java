@@ -11,9 +11,4 @@ public class HubBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HubBackendApplication.class, args);
 	}
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
 }
