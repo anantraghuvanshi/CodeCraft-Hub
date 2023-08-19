@@ -25,21 +25,18 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
-            if (userService.existsByUsername(user.getUserName())) {
-                return ResponseEntity.badRequest().body("Error: Username is already taken!");
-            }
-
             if (userService.existsByEmail(user.getEmail())) {
-                return ResponseEntity.badRequest().body("Error: Email is already in use!");
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
             }
 
             userService.createUser(user);
-            return ResponseEntity.ok("User registered successfully.");
+            return ResponseEntity.ok(new MessageResponse("User registered successfully."));
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error registering user: " + e.getMessage());
+            return ResponseEntity.badRequest().body(new MessageResponse("Error registering user: " + e.getMessage()));
         }
     }
+
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         try {
