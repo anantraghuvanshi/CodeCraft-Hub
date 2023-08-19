@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FirebaseAuthenticationTokenFilter extends OncePerRequestFilter {
 
@@ -26,13 +27,16 @@ public class FirebaseAuthenticationTokenFilter extends OncePerRequestFilter {
         if (authToken != null) {
             try {
                 FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(authToken);
-                AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(firebaseToken.getUid(), null, null);
+                AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(firebaseToken.getUid(), null, new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {
-                throw new SecurityException(e.getMessage());
+                SecurityContextHolder.clearContext();
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+                return;
             }
         }
 
         filterChain.doFilter(request, response);
     }
 }
+
