@@ -44,12 +44,12 @@ public class AuthController {
 
             if (foundUser.isPresent()) {
                 if (passwordEncoder.matches(user.getPassword(), foundUser.get().getPassword())) {
-                    return ResponseEntity.ok("User logged in successfully.");
+                    return ResponseEntity.ok(new MessageResponse("User logged in successfully."));
                 } else {
-                    return ResponseEntity.badRequest().body("Invalid password.");
+                    return ResponseEntity.badRequest().body(new MessageResponse("Invalid password."));
                 }
             } else {
-                return ResponseEntity.badRequest().body("User not found.");
+                return ResponseEntity.badRequest().body(new MessageResponse("User not found."));
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error logging in user: " + e.getMessage());
