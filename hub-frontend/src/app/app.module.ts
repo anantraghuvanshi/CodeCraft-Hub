@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { LoginComponent } from './login/login.component';
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
