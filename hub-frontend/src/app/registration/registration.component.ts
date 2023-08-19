@@ -29,6 +29,7 @@ export class RegistrationComponent {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe(
         (response) => {
+          console.log('Success Response:', response);
           this.snackBar.open(
             'Registration successful! Please login.',
             'Close',
@@ -39,6 +40,7 @@ export class RegistrationComponent {
           this.router.navigate(['/login']);
         },
         (error) => {
+          console.log('Error Response:', error);
           const errorMsg =
             error && error.error && error.error.message
               ? error.error.message
