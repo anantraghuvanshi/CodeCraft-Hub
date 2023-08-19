@@ -1,4 +1,4 @@
-package com.CodeCraft.hubbackend.configuration;
+/*package com.CodeCraft.hubbackend.configuration;
 
 import com.CodeCraft.hubbackend.configuration.FirebaseAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-}
+}*/
 
 
