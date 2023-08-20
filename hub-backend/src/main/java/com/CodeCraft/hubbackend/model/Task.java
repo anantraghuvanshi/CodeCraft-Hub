@@ -1,5 +1,6 @@
 package com.CodeCraft.hubbackend.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Task {
@@ -9,6 +10,34 @@ public class Task {
     private String category;
     private Date deadline;
     private String status;
+
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private Long totalTimeSpent;
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public Long getTotalTimeSpent() {
+        return totalTimeSpent;
+    }
+
+    public void setTotalTimeSpent(Long totalTimeSpent) {
+        this.totalTimeSpent = totalTimeSpent;
+    }
 
     public String getId() {
         return id;
