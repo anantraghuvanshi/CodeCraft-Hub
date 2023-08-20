@@ -6,6 +6,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -59,5 +60,53 @@ public class TaskService {
 
         insights.setUpcomingDeadlines(allTasks.stream().filter(t -> t.getDeadline().after(new Date())).sorted(Comparator.comparing(Task::getDeadline)).limit(5).collect(Collectors.toList()));
         return insights;
+    }
+
+    /* ---- Task timer ----*/
+    public Task startTask(String id) throws ExecutionException, InterruptedException {
+        DocumentReference taskRef = dbFirestore.collection("tasks").document(id);
+        DocumentSnapshot document = taskRef.get().get();
+
+        if (document.exists()) {
+            Task task = document.toObject(Task.class);
+            task.setStartTime(LocalDateTime.now());
+            taskRef.set(task);
+            return task;
+        } else {
+            return null; // or throw an exception if the task doesn't exist
+        }
+    }
+
+    public Task stopTask(String id) throws ExecutionException, InterruptedException {
+        DocumentReference taskRef = dbFirestore.collection("tasks").document(id);
+        DocumentSnapshot document = taskRef.get().get();
+
+        if (document.exists()) {
+            Task task = document.toObject(Task.class);
+            task.setEndTime(LocalDateTime.now());
+
+            Long timeSpent = java.time.Duration.between(task.getStartTime(), task.getEndTime()).toMinutes(); // calculate time spent in minutes
+            task.setTotalTimeSpent(task.getTotalTimeSpent() + timeSpent);
+
+            taskRef.set(task);
+            return task;
+        } else {
+            return null;
+        }
+    }
+    public Task resumeTask(String id) throws ExecutionException, InterruptedException {
+        DocumentReference taskRef = dbFirestore.collection("tasks").document(id);
+        DocumentSnapshot document = taskRef.get().get();
+
+        if (document.exists()) {
+            Task task = document.toObject(Task.class);
+            task.setStartTime(LocalDateTime.now());
+            task.setEndTime(null);
+
+            taskRef.set(task);
+            return task;
+        } else {
+            return null;
+        }
     }
 }
