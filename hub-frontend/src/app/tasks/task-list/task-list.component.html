@@ -1,5 +1,19 @@
 <mat-list>
-  <mat-list-item *ngFor="let task of tasks" (click)="onTaskSelect(task.id)">
-    {{ task.title }}
+  <mat-list-item *ngFor="let task of tasks">
+    <div (click)="onTaskSelect(task.id)" style="flex: 1">{{ task.title }}</div>
+
+    <button mat-button (click)="startTask(task.id)" *ngIf="!task.startTime">
+      Start
+    </button>
+    <button
+      mat-button
+      (click)="stopTask(task.id)"
+      *ngIf="task.startTime && !task.endTime"
+    >
+      Stop
+    </button>
+    <button mat-button (click)="resumeTask(task.id)" *ngIf="task.endTime">
+      Resume
+    </button>
   </mat-list-item>
 </mat-list>
