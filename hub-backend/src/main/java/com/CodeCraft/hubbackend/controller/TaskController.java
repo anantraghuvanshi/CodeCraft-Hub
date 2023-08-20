@@ -37,9 +37,24 @@ public class TaskController {
         return taskService.deleteTask(id);
     }
 
-    /* DashBoard Insights Mapping */
+    /*----- DashBoard Insights Mapping -----*/
     @GetMapping("/dashboard-insights")
     public DashboardInsights getDashboardInsights() throws ExecutionException, InterruptedException {
         return taskService.getDashBoardInsights();
+    }
+
+    /*----- Task timer -----*/
+    @PutMapping("/start-task/{id}")
+    public Task startTask(@PathVariable String id) throws ExecutionException, InterruptedException {
+        return taskService.startTask(id);
+    }
+
+    @PutMapping("/stop-task/{id}")
+    public Task stopTask(@PathVariable String id) throws ExecutionException, InterruptedException {
+        return taskService.stopTask(id);
+    }
+    @PutMapping("/resume-task/{id}")
+    public Task resumeTask(@PathVariable String id) throws ExecutionException, InterruptedException {
+        return taskService.resumeTask(id);
     }
 }
