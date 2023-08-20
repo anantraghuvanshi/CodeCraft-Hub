@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class TaskService {
   constructor(private http: HttpClient) {}
 
+  // Tasks list, detail, create
   getAllTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${environment.apiUrl}/api/tasks/all`);
   }
@@ -27,5 +28,22 @@ export class TaskService {
       return throwError(errMsg);
     }
     return throwError(error || 'Server error');
+  }
+  // Task timer
+
+  startTask(id: String): Observable<Task> {
+    return this.http.get<Task>(
+      `${environment.apiUrl}/api/tasks/start-task/${id}`
+    );
+  }
+  stopTask(id: String): Observable<Task> {
+    return this.http.get<Task>(
+      `${environment.apiUrl}/api/tasks/stop-task/${id}`
+    );
+  }
+  resumeTask(id: String): Observable<Task> {
+    return this.http.get<Task>(
+      `${environment.apiUrl}/api/tasks/resume-task/${id}`
+    );
   }
 }
