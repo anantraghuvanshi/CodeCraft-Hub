@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { TaskDetailComponent } from './tasks/task-detail/task-detail.component';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
@@ -21,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthInterceptor } from './services/authService/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatNativeDateModule,
     MatSnackBarModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

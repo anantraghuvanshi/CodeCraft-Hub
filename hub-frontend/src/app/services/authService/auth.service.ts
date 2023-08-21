@@ -20,18 +20,21 @@ export class AuthService {
 
   login(userData: any): Observable<any> {
     return this.http
-      .post<{ userId: string }>(`${this.apiUrl}/login`, userData)
+      .post<{ token: string }>(`${this.apiUrl}/login`, userData)
       .pipe(
         tap((response) => {
-          if (response && response.userId) {
-            localStorage.setItem('loggedInUserId', response.userId);
+          if (response && response.token) {
+            localStorage.setItem('jwtToken', response.token);
           }
         })
       );
   }
 
   logout(): void {
-    // Optionally, you can have an API call to invalidate session/token
-    localStorage.removeItem('loggedInUserId');
+    localStorage.removeItem('jwtToken');
+  }
+
+  getToken(): string {
+    return localStorage.getItem('jwtToken') || '';
   }
 }
