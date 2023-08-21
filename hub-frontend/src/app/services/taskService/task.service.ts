@@ -10,17 +10,25 @@ import { HttpClient } from '@angular/common/http';
 export class TaskService {
   constructor(private http: HttpClient) {}
 
+  private getUserId(): string {
+    return localStorage.getItem('loggedInUserId') || '';
+  }
+
   // Tasks list, detail, create
   getAllTasks(): Observable<Task[]> {
+    const userId = this.getUserId();
     return this.http.get<Task[]>(`${environment.apiUrl}/api/tasks/all`);
   }
 
   getTaskById(id: string): Observable<Task> {
     return this.http.get<Task>(`${environment.apiUrl}/api/tasks/${id}`);
   }
+
   createTask(task: Task): Observable<Task> {
+    task.userId = this.getUserId();
     return this.http.post<Task>(`${environment.apiUrl}/api/tasks/create`, task);
   }
+
   private handleError(error: any) {
     console.error('Server error:', error);
     if (error.error instanceof Error) {
@@ -29,21 +37,26 @@ export class TaskService {
     }
     return throwError(error || 'Server error');
   }
-  // Task timer
 
+  // Task timer
   startTask(id: String): Observable<Task> {
-    return this.http.get<Task>(
-      `${environment.apiUrl}/api/tasks/start-task/${id}`
+    return this.http.put<Task>(
+      `${environment.apiUrl}/api/tasks/start-task/${id}`,
+      {}
     );
   }
+
   stopTask(id: String): Observable<Task> {
-    return this.http.get<Task>(
-      `${environment.apiUrl}/api/tasks/stop-task/${id}`
+    return this.http.put<Task>(
+      `${environment.apiUrl}/api/tasks/stop-task/${id}`,
+      {}
     );
   }
+
   resumeTask(id: String): Observable<Task> {
-    return this.http.get<Task>(
-      `${environment.apiUrl}/api/tasks/resume-task/${id}`
+    return this.http.put<Task>(
+      `${environment.apiUrl}/api/tasks/resume-task/${id}`,
+      {}
     );
   }
 }
