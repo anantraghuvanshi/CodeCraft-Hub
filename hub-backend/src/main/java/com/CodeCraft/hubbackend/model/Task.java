@@ -10,6 +10,15 @@ public class Task {
     private String category;
     private Date deadline;
     private String status;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;

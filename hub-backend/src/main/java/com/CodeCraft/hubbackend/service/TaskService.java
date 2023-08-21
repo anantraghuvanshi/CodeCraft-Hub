@@ -19,7 +19,8 @@ public class TaskService {
 
     private Firestore dbFirestore = FirestoreClient.getFirestore();
 
-    public Task saveTask(Task task) throws ExecutionException, InterruptedException {
+    public Task saveTask(Task task, String userId) throws ExecutionException, InterruptedException {
+        task.setUserId(userId);
         CollectionReference tasks = dbFirestore.collection("tasks");
         DocumentReference addedDocRef = tasks.add(task).get();
         task.setId(addedDocRef.getId());
@@ -27,8 +28,8 @@ public class TaskService {
         return task;
     }
 
-    public List<Task> getAllTasks() throws ExecutionException, InterruptedException {
-        List<QueryDocumentSnapshot> documents = dbFirestore.collection("tasks").get().get().getDocuments();
+    public List<Task> getAllTasksByUserId(String userId) throws ExecutionException, InterruptedException {
+        List<QueryDocumentSnapshot> documents = dbFirestore.collection("tasks").whereEqualTo("userId", userId).get().get().getDocuments();
         List<Task> tasks = new ArrayList<>();
         for (DocumentSnapshot document : documents) {
             tasks.add(document.toObject(Task.class));
@@ -57,10 +58,10 @@ public class TaskService {
     }
 
     /*---DashboardInsights-----*/
-    public DashboardInsights getDashBoardInsights() throws ExecutionException, InterruptedException{
+    public DashboardInsights getDashBoardInsights(String userId) throws ExecutionException, InterruptedException{
         DashboardInsights insights = new DashboardInsights();
 
-        List<Task> allTasks = getAllTasks();
+        List<Task> allTasks = getAllTasksByUserId(userId);
 
         insights.setTotalTasks((long) allTasks.size());
         insights.setPendingTasks(allTasks.stream().filter(t ->"pending".equalsIgnoreCase(t.getStatus())).count());

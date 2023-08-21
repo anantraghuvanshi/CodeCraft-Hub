@@ -2,12 +2,15 @@ package com.CodeCraft.hubbackend.controller;
 
 import com.CodeCraft.hubbackend.model.DashboardInsights;
 import com.CodeCraft.hubbackend.model.Task;
+import com.CodeCraft.hubbackend.model.User;
 import com.CodeCraft.hubbackend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -19,15 +22,13 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping("/create")
-    public ResponseEntity<Task> createTask(@RequestBody Task task) throws ExecutionException, InterruptedException {
-        Task createdTask = taskService.saveTask(task);
-        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
+    public Task createTask(@RequestBody Task task, @AuthenticationPrincipal User currentUser) throws ExecutionException, InterruptedException {
+        return taskService.saveTask(task, currentUser.getId());
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Task>> getAll() throws ExecutionException, InterruptedException {
-        List<Task> tasks = taskService.getAllTasks();
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    public List<Task> getAll(@AuthenticationPrincipal User currentUser) throws ExecutionException, InterruptedException {
+        return taskService.getAllTasksByUserId(currentUser.getId());
     }
 
     @GetMapping("/{id}")
