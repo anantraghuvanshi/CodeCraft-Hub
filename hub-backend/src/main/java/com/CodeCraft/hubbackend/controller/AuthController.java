@@ -50,7 +50,7 @@ public class AuthController {
 
             if (foundUser.isPresent()) {
                 if (passwordEncoder.matches(user.getPassword(), foundUser.get().getPassword())) {
-                    String jwtToken = jwtUtil.generateToken(foundUser.get().getUserName()); 
+                    String jwtToken = jwtUtil.generateToken(foundUser.get().getUserName());
                     Map<String, String> response = new HashMap<>();
                     response.put("jwt", jwtToken);
                     return ResponseEntity.ok(response);
