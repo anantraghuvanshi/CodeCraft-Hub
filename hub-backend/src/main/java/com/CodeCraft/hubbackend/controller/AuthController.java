@@ -2,6 +2,7 @@ package com.CodeCraft.hubbackend.controller;
 
 import com.CodeCraft.hubbackend.model.User;
 import com.CodeCraft.hubbackend.service.UserService;
+import com.CodeCraft.hubbackend.configuration.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,6 +24,9 @@ public class AuthController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
@@ -44,7 +50,10 @@ public class AuthController {
 
             if (foundUser.isPresent()) {
                 if (passwordEncoder.matches(user.getPassword(), foundUser.get().getPassword())) {
-                    return ResponseEntity.ok(new MessageResponse("User logged in successfully."));
+                    String jwtToken = jwtUtil.generateToken(foundUser.get().getUserName()); 
+                    Map<String, String> response = new HashMap<>();
+                    response.put("jwt", jwtToken);
+                    return ResponseEntity.ok(response);
                 } else {
                     return ResponseEntity.badRequest().body(new MessageResponse("Invalid password."));
                 }
@@ -55,6 +64,4 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Error logging in user: " + e.getMessage());
         }
     }
-
-
 }
