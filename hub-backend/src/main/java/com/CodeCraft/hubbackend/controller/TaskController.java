@@ -51,8 +51,8 @@ public class TaskController {
 
     /*----- DashBoard Insights Mapping -----*/
     @GetMapping("/dashboard-insights")
-    public DashboardInsights getDashboardInsights() throws ExecutionException, InterruptedException {
-        return taskService.getDashBoardInsights();
+    public DashboardInsights getDashboardInsights(@AuthenticationPrincipal User currentUser) throws ExecutionException, InterruptedException {
+        return taskService.getDashBoardInsights(currentUser.getId());
     }
 
     /*----- Task timer -----*/
