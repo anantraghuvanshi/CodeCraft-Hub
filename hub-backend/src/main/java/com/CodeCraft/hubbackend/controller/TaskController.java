@@ -4,6 +4,8 @@ import com.CodeCraft.hubbackend.model.DashboardInsights;
 import com.CodeCraft.hubbackend.model.Task;
 import com.CodeCraft.hubbackend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,24 +19,33 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping("/create")
-    public Task createTask(@RequestBody Task task) throws ExecutionException, InterruptedException{
-        return taskService.saveTask(task);
+    public ResponseEntity<Task> createTask(@RequestBody Task task) throws ExecutionException, InterruptedException {
+        Task createdTask = taskService.saveTask(task);
+        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
+
     @GetMapping("/all")
-    public List<Task> getAll() throws ExecutionException, InterruptedException{
-        return taskService.getAllTasks();
+    public ResponseEntity<List<Task>> getAll() throws ExecutionException, InterruptedException {
+        List<Task> tasks = taskService.getAllTasks();
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable String id) throws ExecutionException, InterruptedException{
-        return taskService.getTaskById(id);
+    public ResponseEntity<Task> getTaskById(@PathVariable String id) throws ExecutionException, InterruptedException {
+        Task task = taskService.getTaskById(id);
+        return (task != null) ? new ResponseEntity<>(task, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     @PutMapping("/update/{id}")
-    public String updateTask(@PathVariable String id, @RequestBody Task task) {
-        return taskService.updateTask(id, task);
+    public ResponseEntity<String> updateTask(@PathVariable String id, @RequestBody Task task) throws ExecutionException, InterruptedException {
+        String response = taskService.updateTask(id, task);
+        return "Task updated successfully".equals(response) ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
     @DeleteMapping("/delete/{id}")
-    public String deleteTask(@PathVariable String id){
-        return taskService.deleteTask(id);
+    public ResponseEntity<String> deleteTask(@PathVariable String id) {
+        String response = taskService.deleteTask(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /*----- DashBoard Insights Mapping -----*/

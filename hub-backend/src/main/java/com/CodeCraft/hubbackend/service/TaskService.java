@@ -23,9 +23,10 @@ public class TaskService {
         CollectionReference tasks = dbFirestore.collection("tasks");
         DocumentReference addedDocRef = tasks.add(task).get();
         task.setId(addedDocRef.getId());
-        addedDocRef.set(task);
+        addedDocRef.set(task).get();
         return task;
     }
+
     public List<Task> getAllTasks() throws ExecutionException, InterruptedException {
         List<QueryDocumentSnapshot> documents = dbFirestore.collection("tasks").get().get().getDocuments();
         List<Task> tasks = new ArrayList<>();
@@ -34,15 +35,23 @@ public class TaskService {
         }
         return tasks;
     }
-    public Task getTaskById(String id) throws ExecutionException, InterruptedException{
+
+    public Task getTaskById(String id) throws ExecutionException, InterruptedException {
         DocumentSnapshot document = dbFirestore.collection("tasks").document(id).get().get();
-        return document.toObject(Task.class);
+        return document.exists() ? document.toObject(Task.class) : null;
     }
-    public String updateTask(String id, Task task){
-        dbFirestore.collection("tasks").document(id).set(task);
-        return "Task updated successfully";
+
+    public String updateTask(String id, Task task) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = dbFirestore.collection("tasks").document(id);
+        if (docRef.get().get().exists()) {
+            docRef.set(task).get();
+            return "Task updated successfully";
+        } else {
+            return "Task not found";
+        }
     }
-    public String deleteTask(String id){
+
+    public String deleteTask(String id) {
         dbFirestore.collection("tasks").document(id).delete();
         return "Task deleted successfully";
     }
@@ -70,10 +79,10 @@ public class TaskService {
         if (document.exists()) {
             Task task = document.toObject(Task.class);
             task.setStartTime(LocalDateTime.now());
-            taskRef.set(task);
+            taskRef.set(task).get();
             return task;
         } else {
-            return null; // or throw an exception if the task doesn't exist
+            return null;
         }
     }
 
