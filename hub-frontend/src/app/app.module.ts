@@ -22,6 +22,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthInterceptor } from './services/authService/auth.interceptor';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AuthInterceptor } from './services/authService/auth.interceptor';
     TaskCreateComponent,
     RegistrationComponent,
     LoginComponent,
+    LandingPageComponent,
   ],
   imports: [
     BrowserModule,
