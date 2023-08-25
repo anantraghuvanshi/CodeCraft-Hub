@@ -75,4 +75,27 @@ button[color="accent"]:hover {
     background-color: #45a047;
 }
 
+/* ---- About Sections ---- */
+
+.about-section {
+    padding: 50px 0;
+    background-color: #1a1a1a;  
+    color: #e6e6e6; 
+}
+
+.about-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.about-section p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+
 
