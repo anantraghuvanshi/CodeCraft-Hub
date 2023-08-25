@@ -6,11 +6,16 @@ import { TaskDetailComponent } from './tasks/task-detail/task-detail.component';
 import { TaskCreateComponent } from './tasks/task-create/task-create.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+  },
+  {
+    path: '/',
+    component: LandingPageComponent,
   },
   { path: 'tasks', component: TaskListComponent },
   { path: 'tasks/:id', component: TaskDetailComponent },
