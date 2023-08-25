@@ -1,14 +1,10 @@
-<header>
-  <nav class="navbar">
-    <div class="left-nav">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#api">API</a>
-    </div>
+<mat-toolbar color="primary">
+  <button mat-button routerLink="#home">Home</button>
+  <button mat-button routerLink="#about">About</button>
+  <button mat-button routerLink="#api">API</button>
 
-    <div class="right-nav">
-      <button class="login-btn">Log In</button>
-      <button class="signup-btn">Sign Up</button>
-    </div>
-  </nav>
-</header>
+  <span class="spacer"></span>
+
+  <button mat-raised-button class="login-btn">Log In</button>
+  <button mat-raised-button class="signup-btn">Sign Up</button>
+</mat-toolbar>

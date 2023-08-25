@@ -1,47 +1,34 @@
-/* Base Styles */
-html {
-    scroll-behavior: smooth;
+.spacer{
+    flex: 1 1 auto;
 }
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #2e2e2e;
-    color: #ffffff;
-}
-
-.left-nav a, .right-nav button {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #ffffff;
-    transition: color 0.3s;
-}
-
-.left-nav a:hover, .right-nav button:hover {
-    color: #888888;
-}
-
-/* Button Styling */
 .login-btn, .signup-btn {
-    padding: 5px 15px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    margin-left: 10px;
+    border-radius: 3px;
+    padding: 8px 20px;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-btn {
-    background-color: #444;
+    background: linear-gradient(45deg, #ffa726, #fb8c00);
+    border: none;
+    color: #ffffff;
 }
 
 .signup-btn {
-    background-color: #666;
+    background: linear-gradient(45deg, #66bb6a, #43a047);
+    color: #ffffff;
+}
+
+.login-btn:hover, .signup-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .login-btn:hover {
-    background-color: #555;
+    background: linear-gradient(45deg, #ffca28, #ffa000);
 }
 
 .signup-btn:hover {
-    background-color: #777;
+    background: linear-gradient(45deg, #81c784, #66bb6a);
 }
