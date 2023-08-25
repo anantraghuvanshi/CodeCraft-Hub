@@ -1,65 +1,47 @@
-.header {
+/* Base Styles */
+html {
+    scroll-behavior: smooth;
+}
+
+.navbar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-    background-color: #1a1a2e;
+    padding: 10px 20px;
+    background-color: #2e2e2e;
+    color: #ffffff;
+}
 
-    .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 2rem;
-    }
+.left-nav a, .right-nav button {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #ffffff;
+    transition: color 0.3s;
+}
 
-    .logo {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #e94560;
-    }
+.left-nav a:hover, .right-nav button:hover {
+    color: #888888;
+}
 
-    nav ul {
-        display: flex;
-        gap: 1.5rem;
-        list-style-type: none;
+/* Button Styling */
+.login-btn, .signup-btn {
+    padding: 5px 15px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-        li a {
-            text-decoration: none;
-            color: #fff;
-            transition: color 0.3s;
+.login-btn {
+    background-color: #444;
+}
 
-            &:hover {
-                color: #e94560;
-            }
-        }
-    }
+.signup-btn {
+    background-color: #666;
+}
 
-    .cta-button {
-        background-color: #e94560;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        color: #fff;
-        transition: background-color 0.3s;
+.login-btn:hover {
+    background-color: #555;
+}
 
-        &:hover {
-            background-color: #d63447;
-        }
-    }
-
-    .socials {
-        display: flex;
-        gap: 1rem;
-
-        a {
-            color: #fff;
-            font-size: 1.2rem;
-            transition: color 0.3s;
-
-            &:hover {
-                color: #e94560;
-            }
-        }
-    }
+.signup-btn:hover {
+    background-color: #777;
 }
