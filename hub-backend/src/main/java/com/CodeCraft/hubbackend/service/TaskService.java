@@ -37,25 +37,43 @@ public class TaskService {
         return tasks;
     }
 
-    public Task getTaskById(String id) throws ExecutionException, InterruptedException {
+    public Task getTaskById(String id, String userId) throws ExecutionException, InterruptedException {
         DocumentSnapshot document = dbFirestore.collection("tasks").document(id).get().get();
-        return document.exists() ? document.toObject(Task.class) : null;
-    }
+        Task task = document.toObject(Task.class);
 
-    public String updateTask(String id, Task task) throws ExecutionException, InterruptedException {
-        DocumentReference docRef = dbFirestore.collection("tasks").document(id);
-        if (docRef.get().get().exists()) {
-            docRef.set(task).get();
-            return "Task updated successfully";
+        if (task != null && task.getUserId().equals(userId)) {
+            return task;
         } else {
-            return "Task not found";
+            return null;
         }
     }
 
-    public String deleteTask(String id) {
-        dbFirestore.collection("tasks").document(id).delete();
-        return "Task deleted successfully";
+
+    public String updateTask(String id, Task task, String userId) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = dbFirestore.collection("tasks").document(id);
+        Task existingTask = docRef.get().get().toObject(Task.class);
+
+        if (existingTask != null && existingTask.getUserId().equals(userId)) {
+            docRef.set(task).get();
+            return "Task updated successfully";
+        } else {
+            return "Task not found or unauthorized";
+        }
     }
+
+
+    public String deleteTask(String id, String userId) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = dbFirestore.collection("tasks").document(id);
+        Task existingTask = docRef.get().get().toObject(Task.class);
+
+        if (existingTask != null && existingTask.getUserId().equals(userId)) {
+            docRef.delete();
+            return "Task deleted successfully";
+        } else {
+            return "Task not found or unauthorized";
+        }
+    }
+
 
     /*---DashboardInsights-----*/
     public DashboardInsights getDashBoardInsights(String userId) throws ExecutionException, InterruptedException{
