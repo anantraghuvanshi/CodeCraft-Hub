@@ -1,5 +1,6 @@
 package com.CodeCraft.hubbackend.controller;
 
+import com.CodeCraft.hubbackend.exceptions.UnauthorizedException;
 import com.CodeCraft.hubbackend.model.DashboardInsights;
 import com.CodeCraft.hubbackend.model.Task;
 import com.CodeCraft.hubbackend.model.User;
@@ -44,24 +45,30 @@ public class TaskController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateTask(@PathVariable String id, @RequestBody Task task, @AuthenticationPrincipal User currentUser) throws ExecutionException, InterruptedException {
-        String response = taskService.updateTask(id, task, currentUser.getId());
-        if ("Task updated successfully".equals(response)) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        try {
+            taskService.updateTask(id, task, currentUser.getId());
+            return new ResponseEntity<>("Task updated successfully", HttpStatus.OK);
+        } catch (UnauthorizedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable String id, @AuthenticationPrincipal User currentUser) throws ExecutionException, InterruptedException {
-        String response = taskService.deleteTask(id, currentUser.getId());
-        if ("Task deleted successfully".equals(response)) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<String> deleteTask(@PathVariable String id, @AuthenticationPrincipal User currentUser) {
+        try {
+            taskService.deleteTask(id, currentUser.getId());
+            return new ResponseEntity<>("Task deleted successfully", HttpStatus.OK);
+        } catch (UnauthorizedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error oc curred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
     /*----- DashBoard Insights Mapping -----*/
