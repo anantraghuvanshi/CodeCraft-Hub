@@ -1,6 +1,5 @@
 package com.CodeCraft.hubbackend.configuration;
 
-import com.google.api.client.util.Value;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,8 +13,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String SECRET_KEY;
+    private final String SECRET_KEY = "moau@123";
 
     public String extractUserId(String token){
         return extractClaim(token, Claims::getSubject);
