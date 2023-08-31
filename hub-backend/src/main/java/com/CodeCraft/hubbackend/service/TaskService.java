@@ -1,5 +1,6 @@
 package com.CodeCraft.hubbackend.service;
 
+import com.CodeCraft.hubbackend.exceptions.UnauthorizedException;
 import com.CodeCraft.hubbackend.model.DashboardInsights;
 import com.CodeCraft.hubbackend.model.Task;
 import com.google.cloud.firestore.*;
@@ -39,40 +40,41 @@ public class TaskService {
 
     public Task getTaskById(String id, String userId) throws ExecutionException, InterruptedException {
         DocumentSnapshot document = dbFirestore.collection("tasks").document(id).get().get();
-        Task task = document.toObject(Task.class);
+        Task task = document.exists() ? document.toObject(Task.class) : null;
 
-        if (task != null && task.getUserId().equals(userId)) {
-            return task;
-        } else {
-            return null;
+        if (task == null || !task.getUserId().equals(userId)) {
+            throw new UnauthorizedException("Task not found or unauthorized");
         }
+
+        return task;
     }
 
 
-    public String updateTask(String id, Task task, String userId) throws ExecutionException, InterruptedException {
+
+    public void updateTask(String id, Task task, String userId) throws ExecutionException, InterruptedException {
         DocumentReference docRef = dbFirestore.collection("tasks").document(id);
         Task existingTask = docRef.get().get().toObject(Task.class);
 
-        if (existingTask != null && existingTask.getUserId().equals(userId)) {
-            docRef.set(task).get();
-            return "Task updated successfully";
-        } else {
-            return "Task not found or unauthorized";
+        if (existingTask == null || !existingTask.getUserId().equals(userId)) {
+            throw new UnauthorizedException("Task not found or unauthorized");
         }
+
+        docRef.set(task).get();
     }
 
 
-    public String deleteTask(String id, String userId) throws ExecutionException, InterruptedException {
+
+    public void deleteTask(String id, String userId) throws ExecutionException, InterruptedException {
         DocumentReference docRef = dbFirestore.collection("tasks").document(id);
         Task existingTask = docRef.get().get().toObject(Task.class);
 
-        if (existingTask != null && existingTask.getUserId().equals(userId)) {
-            docRef.delete();
-            return "Task deleted successfully";
-        } else {
-            return "Task not found or unauthorized";
+        if (existingTask == null || !existingTask.getUserId().equals(userId)) {
+            throw new UnauthorizedException("Task not found or unauthorized");
         }
+
+        docRef.delete().get();
     }
+
 
 
     /*---DashboardInsights-----*/
