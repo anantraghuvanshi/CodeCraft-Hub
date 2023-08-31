@@ -32,22 +32,37 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable String id) throws ExecutionException, InterruptedException {
-        Task task = taskService.getTaskById(id);
-        return (task != null) ? new ResponseEntity<>(task, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Task> getTaskById(@PathVariable String id, @AuthenticationPrincipal User currentUser) throws ExecutionException, InterruptedException {
+        Task task = taskService.getTaskById(id, currentUser.getId());
+        if (task != null) {
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
+
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateTask(@PathVariable String id, @RequestBody Task task) throws ExecutionException, InterruptedException {
-        String response = taskService.updateTask(id, task);
-        return "Task updated successfully".equals(response) ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> updateTask(@PathVariable String id, @RequestBody Task task, @AuthenticationPrincipal User currentUser) throws ExecutionException, InterruptedException {
+        String response = taskService.updateTask(id, task, currentUser.getId());
+        if ("Task updated successfully".equals(response)) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
     }
 
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable String id) {
-        String response = taskService.deleteTask(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<String> deleteTask(@PathVariable String id, @AuthenticationPrincipal User currentUser) throws ExecutionException, InterruptedException {
+        String response = taskService.deleteTask(id, currentUser.getId());
+        if ("Task deleted successfully".equals(response)) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
     }
+
 
     /*----- DashBoard Insights Mapping -----*/
     @GetMapping("/dashboard-insights")
