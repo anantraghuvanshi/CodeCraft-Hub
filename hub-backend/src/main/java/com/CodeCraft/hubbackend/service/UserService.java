@@ -29,7 +29,7 @@ public class UserService {
         DocumentSnapshot document = future.get();
 
         if (document.exists()) {
-            return Optional.of(document.toObject(User.class));
+            return Optional.ofNullable(document.toObject(User.class));
         } else {
             return Optional.empty();
         }
@@ -45,5 +45,16 @@ public class UserService {
         ApiFuture<QuerySnapshot> querySnapshot = query.get();
 
         return !querySnapshot.get().getDocuments().isEmpty();
+    }
+    public User findByUsernameRepo(String username) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = dbFirestore.collection("users").document(username);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+
+        if (document.exists()) {
+            return document.toObject(User.class);
+        } else {
+            return null;
+        }
     }
 }
