@@ -2,7 +2,6 @@ package com.CodeCraft.hubbackend.controller;
 
 import com.CodeCraft.hubbackend.model.User;
 import com.CodeCraft.hubbackend.service.UserService;
-import com.CodeCraft.hubbackend.configuration.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
