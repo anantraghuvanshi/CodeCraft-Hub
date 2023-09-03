@@ -4,7 +4,6 @@ import com.CodeCraft.hubbackend.model.User;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,9 +12,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class UserService {
 
-    private Firestore dbFirestore = FirestoreClient.getFirestore();
-
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final Firestore dbFirestore = FirestoreClient.getFirestore();
 
 //    public String createUser(User user) throws ExecutionException, InterruptedException {
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
