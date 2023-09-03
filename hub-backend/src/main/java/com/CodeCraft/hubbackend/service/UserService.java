@@ -17,12 +17,12 @@ public class UserService {
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public String createUser(User user) throws ExecutionException, InterruptedException {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        ApiFuture<WriteResult> future = dbFirestore.collection("users").document(user.getUserName()).set(user);
-        return future.get().getUpdateTime().toString();
-    }
+//    public String createUser(User user) throws ExecutionException, InterruptedException {
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//
+//        ApiFuture<WriteResult> future = dbFirestore.collection("users").document(user.getUserName()).set(user);
+//        return future.get().getUpdateTime().toString();
+//    }
     public Optional<User> findByUsername(String username) throws ExecutionException, InterruptedException {
         DocumentReference docRef = dbFirestore.collection("users").document(username);
         ApiFuture<DocumentSnapshot> future = docRef.get();
@@ -56,5 +56,9 @@ public class UserService {
         } else {
             return null;
         }
+    }
+    public void save(User user){
+        CollectionReference userRef = dbFirestore.collection("users");
+        userRef.add(user);
     }
 }
