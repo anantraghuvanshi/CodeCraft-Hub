@@ -7,25 +7,21 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 @Configuration
 public class FirebaseConfig {
 
     @PostConstruct
-    public void initialize() {
-        try {
-            FileInputStream serviceAccount =
-                    new FileInputStream("./codecraft-f2188-firebase-adminsdk-86nwr-ad877383f1.json");
+    public void initialize() throws IOException {
+        FileInputStream serviceAccount =
+                new FileInputStream("./serviceAccountKey.json");
 
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .build();
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .build();
 
-            if (FirebaseApp.getApps().isEmpty()) {
-                FirebaseApp.initializeApp(options);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        FirebaseApp.initializeApp(options);
+
     }
 }
