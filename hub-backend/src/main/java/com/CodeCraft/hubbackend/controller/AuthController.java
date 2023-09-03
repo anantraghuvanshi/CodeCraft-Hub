@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
 //    @Autowired
@@ -74,7 +75,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(
             @RequestBody AuthenticationRequest request
-    ){
+    ) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(authenticationService.login(request));
 
     }
