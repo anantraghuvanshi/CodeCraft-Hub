@@ -17,11 +17,11 @@ public class FirebaseConfig {
         FileInputStream serviceAccount =
                 new FileInputStream("./serviceAccountKey.json");
 
-        FirebaseOptions options = new FirebaseOptions.Builder()
+        FirebaseOptions app = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .build();
 
-        FirebaseApp.initializeApp(options);
+        FirebaseApp.initializeApp(app);
 
     }
 }
